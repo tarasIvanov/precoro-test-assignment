@@ -12,6 +12,10 @@
         {% endblock %}
     </head>
     <body>
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            {{ include('_partials/navbar_auth.html.twig') }}
+        {% endif %}
+
         {% block body %}{% endblock %}
     </body>
 </html>
