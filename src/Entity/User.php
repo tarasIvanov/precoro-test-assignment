@@ -26,10 +26,14 @@ class User
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "Пароль не може бути порожнім")]
+    #[Assert\Length(min: 8, message: "Пароль повинен бути не менше 8 символів")]
     private ?string $password = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\OneToOne(mappedBy: 'user', targetEntity: Cart::class, cascade: ['persist', 'remove'])]
+    private ?Cart $cart = null;
 
     public function getId(): ?int
     {
@@ -80,6 +84,18 @@ class User
     public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getCart(): ?Cart
+    {
+        return $this->cart;
+    }
+
+    public function setCart(?Cart $cart): static
+    {
+        $this->cart = $cart;
 
         return $this;
     }
