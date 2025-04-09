@@ -22,7 +22,7 @@ class Cart
     #[ORM\Column]
     private ?float $price = 0;
 
-    #[ORM\OneToMany(mappedBy: 'cart', targetEntity: CartItem::class, orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: CartItem::class, mappedBy: 'cart', orphanRemoval: true)]
     private Collection $cartItems;
 
 

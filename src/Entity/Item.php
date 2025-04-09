@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\ItemRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ItemRepository::class)]
@@ -22,6 +24,14 @@ class Item
     #[Assert\NotBlank(message: "Ціна не може бути порожньою")]
     #[Assert\Positive(message: "Ціна повинна бути більше нуля")]
     private ?float $price = null;
+
+    #[ORM\OneToMany(targetEntity: OrderItem::class, mappedBy: 'item')]
+    private Collection $orderItems;
+
+    public function __construct()
+    {
+        $this->orderItems = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -47,6 +57,33 @@ class Item
     public function setPrice(float $price): static
     {
         $this->price = $price;
+        return $this;
+    }
+
+    public function getOrderItems(): Collection
+    {
+        return $this->orderItems;
+    }
+
+    public function addOrderItem(OrderItem $orderItem): static
+    {
+        if (!$this->orderItems->contains($orderItem)) {
+            $this->orderItems->add($orderItem);
+            $orderItem->setItem($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrderItem(OrderItem $orderItem): static
+    {
+        if ($this->orderItems->removeElement($orderItem)) {
+            // set the owning side to null (unless already changed)
+            if ($orderItem->getItem() === $this) {
+                $orderItem->setItem(null);
+            }
+        }
+
         return $this;
     }
 } 

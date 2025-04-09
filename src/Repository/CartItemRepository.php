@@ -43,9 +43,6 @@ class CartItemRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    /**
-     * Підраховує загальну суму товарів у кошику
-     */
     public function calculateCartTotal(Cart $cart): float
     {
         $result = $this->createQueryBuilder('ci')
