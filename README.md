@@ -7,6 +7,9 @@
 - Composer
 
 Опис кроків для запуску:
+- `git clone ..`
+- `cd precoro-test-assignment`
+- `composer install`
 - `docker compose up -d`
 - `symfony console doctrine:migrations:migrate`
 - `symfony console doctrine:fixtures:load --no-interaction`
