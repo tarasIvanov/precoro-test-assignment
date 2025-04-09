@@ -12,3 +12,11 @@ serve:
 
 clcache:
 	php bin/console cache:clear
+
+fixtures:
+	symfony console doctrine:fixtures:load --no-interaction
+
+start:
+	symfony console doctrine:migrations:migrate
+	symfony console doctrine:fixtures:load --no-interaction
+	symfony serve
