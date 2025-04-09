@@ -41,8 +41,13 @@ class CartController extends AbstractController
     }
 
     #[Route('/add/{id}', name: 'app_cart_add', methods: ['POST'])]
-    public function add(Item $item, EntityManagerInterface $entityManager, CartRepository $cartRepository, CartItemRepository $cartItemRepository): Response
-    {
+    public function add(
+        Item $item, 
+        EntityManagerInterface $entityManager, 
+        CartRepository $cartRepository, 
+        CartItemRepository $cartItemRepository,
+        Request $request
+    ): Response {
         $user = $this->getUser();
         $cart = $user->getCart();
 
@@ -70,7 +75,8 @@ class CartController extends AbstractController
 
         $this->addFlash('success', 'Товар додано до кошика');
 
-        return $this->redirectToRoute('app_item_index');
+        $referer = $request->headers->get('referer');
+        return $referer ? $this->redirect($referer) : $this->redirectToRoute('app_item_index');
     }
 
     #[Route('/remove/{id}', name: 'app_cart_remove', methods: ['POST'])]

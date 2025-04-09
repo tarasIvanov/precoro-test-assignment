@@ -29,6 +29,9 @@
                                     <form action="{{ path('app_cart_remove', {'id': cart_item.item.id}) }}" method="post" class="d-inline">
                                         <button type="submit" class="btn btn-danger btn-sm">-</button>
                                     </form>
+                                    <form action="{{ path('app_cart_add', {'id': cart_item.item.id}) }}" method="post" class="d-inline">
+                                        <button type="submit" class="btn btn-success btn-sm">+</button>
+                                    </form>
                                 </td>
                             </tr>
                         {% endfor %}
@@ -41,14 +44,19 @@
                     </tfoot>
                 </table>
             </div>
+            <div class="mt-3 d-flex gap-2">
+                <a href="{{ path('app_item_index') }}" class="btn btn-primary">Продовжити покупки</a>
+                <form action="{{ path('app_order_create') }}" method="post" class="d-inline">
+                    <button type="submit" class="btn btn-success">Зробити замовлення</button>
+                </form>
+            </div>
         {% else %}
             <div class="alert alert-info">
                 Ваш кошик порожній
             </div>
+            <div class="mt-3">
+                <a href="{{ path('app_item_index') }}" class="btn btn-primary">Продовжити покупки</a>
+            </div>
         {% endif %}
-
-        <div class="mt-3">
-            <a href="{{ path('app_item_index') }}" class="btn btn-primary">Продовжити покупки</a>
-        </div>
     </div>
 {% endblock %} 
