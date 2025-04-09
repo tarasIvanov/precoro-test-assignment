@@ -44,7 +44,6 @@ class CartController extends AbstractController
     public function add(
         Item $item, 
         EntityManagerInterface $entityManager, 
-        CartRepository $cartRepository, 
         CartItemRepository $cartItemRepository,
         Request $request
     ): Response {

@@ -55,7 +55,6 @@ final class OrderController extends AbstractController
         $order->setTotalPrice($totalPrice);
         $entityManager->persist($order);
 
-        // Очищаємо кошик
         foreach ($cart->getCartItems() as $cartItem) {
             $entityManager->remove($cartItem);
         }

@@ -25,7 +25,7 @@ class Item
     #[Assert\Positive(message: "Ціна повинна бути більше нуля")]
     private ?float $price = null;
 
-    #[ORM\OneToMany(mappedBy: 'item', targetEntity: OrderItem::class)]
+    #[ORM\OneToMany(targetEntity: OrderItem::class, mappedBy: 'item')]
     private Collection $orderItems;
 
     public function __construct()

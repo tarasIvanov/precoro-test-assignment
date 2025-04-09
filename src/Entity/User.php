@@ -82,7 +82,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
@@ -129,12 +128,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setCart(?Cart $cart): static
     {
-        // unset the owning side of the relation if necessary
         if ($cart === null && $this->cart !== null) {
             $this->cart->setUser(null);
         }
 
-        // set the owning side of the relation if necessary
         if ($cart !== null && $cart->getUser() !== $this) {
             $cart->setUser($this);
         }
@@ -161,7 +158,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeOrder(Order $order): static
     {
         if ($this->orders->removeElement($order)) {
-            // set the owning side to null (unless already changed)
             if ($order->getUser() === $this) {
                 $order->setUser(null);
             }
