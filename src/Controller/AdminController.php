@@ -3,9 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Item;
-use App\Form\ItemType;
-use App\Repository\ItemRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Service\ItemService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,25 +14,25 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted('ROLE_ADMIN')]
 class AdminController extends AbstractController
 {
+    public function __construct(
+        private readonly ItemService $itemService
+    ) {
+    }
+
     #[Route('/items', name: 'app_admin_items', methods: ['GET'])]
-    public function items(ItemRepository $itemRepository): Response
+    public function items(): Response
     {
         return $this->render('admin/index.html.twig', [
-            'items' => $itemRepository->findAll(),
+            'items' => $this->itemService->getAllItems(),
         ]);
     }
 
     #[Route('/items/new', name: 'app_admin_items_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request): Response
     {
-        $item = new Item();
-        $form = $this->createForm(ItemType::class, $item);
-        $form->handleRequest($request);
+        $form = $this->itemService->createItem($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($item);
-            $entityManager->flush();
-
             $this->addFlash('success', 'Товар успішно створено');
             return $this->redirectToRoute('app_admin_items');
         }
@@ -46,14 +44,11 @@ class AdminController extends AbstractController
     }
 
     #[Route('/items/{id}/edit', name: 'app_admin_items_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Item $item, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Item $item): Response
     {
-        $form = $this->createForm(ItemType::class, $item);
-        $form->handleRequest($request);
+        $form = $this->itemService->updateItem($request, $item);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
-
             $this->addFlash('success', 'Товар успішно оновлено');
             return $this->redirectToRoute('app_admin_items');
         }
@@ -65,14 +60,10 @@ class AdminController extends AbstractController
     }
 
     #[Route('/items/{id}/delete', name: 'app_admin_items_delete', methods: ['POST'])]
-    public function delete(Request $request, Item $item, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, Item $item): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$item->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($item);
-            $entityManager->flush();
-            
-            $this->addFlash('success', 'Товар успішно видалено');
-        }
+        $this->itemService->deleteItem($item);
+        $this->addFlash('success', 'Товар успішно видалено');
 
         return $this->redirectToRoute('app_admin_items');
     }
