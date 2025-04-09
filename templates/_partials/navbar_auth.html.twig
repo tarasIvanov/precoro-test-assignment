@@ -1,0 +1,30 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+    <div class="container-fluid">
+        <span class="navbar-brand">Меню: </span>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{{ path('app_item_index') }}">Items</a>
+                </li>
+                <li class="nav-item">
+                    {# Заглушка #}
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Orders (TBD)</a> 
+                </li>
+                <li class="nav-item">
+                    {# Заглушка #}
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Cart (TBD)</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav">
+                 <li class="nav-item">
+                    <span class="navbar-text me-3">
+                        Вітаємо, {{ app.user.userIdentifier }}!
+                    </span>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-outline-danger" href="{{ path('app_logout') }}">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav> 

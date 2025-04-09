@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Головна сторінка{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1>Тестове завдання для компанії Precoro</h1>
+    
+    <p>Будь ласка, увійдіть або зареєструйтесь:</p>
+    
+    <div class="d-grid gap-2 d-md-block">
+        <a href="{{ path('app_login') }}" class="btn btn-primary">Увійти</a>
+        <a href="{{ path('app_register') }}" class="btn btn-secondary">Зареєструватися</a>
+    </div>
+</div>
+{% endblock %} 

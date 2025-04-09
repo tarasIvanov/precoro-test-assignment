@@ -9,3 +9,6 @@ migration:
 
 serve:
 	symfony serve
+
+clcache:
+	php bin/console cache:clear
