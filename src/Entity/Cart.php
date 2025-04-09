@@ -15,7 +15,7 @@ class Cart
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\OneToOne(targetEntity: User::class, inversedBy: 'cart')]
+    #[ORM\OneToOne(inversedBy: 'cart', targetEntity: User::class)]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 

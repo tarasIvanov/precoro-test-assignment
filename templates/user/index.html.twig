@@ -20,18 +20,14 @@
                                     <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>Ім'я</th>
                                             <th>Email</th>
-                                            <th>Дата створення</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {% for user in users %}
                                             <tr>
                                                 <td>{{ user.id }}</td>
-                                                <td>{{ user.name }}</td>
                                                 <td>{{ user.email }}</td>
-                                                <td>{{ user.createdAt|date('d.m.Y H:i') }}</td>
                                             </tr>
                                         {% endfor %}
                                     </tbody>
