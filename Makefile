@@ -12,7 +12,3 @@ serve:
 
 clcache:
 	php bin/console cache:clear
-
-
-
-#symfony console app:make-admin taras.ivanov.ua@gmail.com
